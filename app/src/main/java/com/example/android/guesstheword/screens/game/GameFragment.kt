@@ -54,21 +54,17 @@ class GameFragment : Fragment() {
         Log.i("GameFragment", "Called ViewModelProviders.of!")
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
+        binding.gameViewModel = viewModel
+        // important to use live data with the views!!!
+        binding.lifecycleOwner = this
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-        }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-        }
+//        viewModel.score.observe(this, Observer {newScore ->
+//            binding.scoreText.text = newScore.toString()
+//        })
 
-        viewModel.score.observe(this, Observer {newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-
-        viewModel.word.observe(this, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
+//        viewModel.word.observe(this, Observer { newWord ->
+//            binding.wordText.text = newWord
+//        })
 
         viewModel.eventGameFinish.observe(this, Observer {hasFinished ->
             if (hasFinished) {
@@ -77,9 +73,6 @@ class GameFragment : Fragment() {
             }
         })
 
-        viewModel.timeStr.observe(this, Observer {timeStr ->
-            binding.timerText.text = timeStr
-        })
 
         return binding.root
 
